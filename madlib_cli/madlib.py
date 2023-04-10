@@ -1,44 +1,50 @@
-# def read_template(file_path):
-#     try:
-#         with open(file_path, 'r') as file:
-#             return file.read().strip()
-#     except FileNotFoundError:
-#         print(f"Error: file not found at {file_path}")
-#         raise
-    
-# def parse_template(template):
-#     language_parts = []
-#     stripped_template = ""
-#     in_language_part = False
-    
-#     for char in template:
-#         if char == "{":
-#             in_language_part = True
-#             language_parts.append("")
-#         elif char == "}":
-#             in_language_part = False
-#         else:
-#             if in_language_part:
-#                 language_parts[-1] += char
-#             else:
-#                 stripped_template += char
-    
-#     return stripped_template, language_parts
-# def merge(template, language_parts):
-#     if len(language_parts) == 0:
-#         return template
-    
-#     merged_template = template.replace("{}", str(language_parts[0]), 1)
-#     for language_part in language_parts[1:]:
-#         merged_template = merged_template.replace("{}", str(language_part), 1)
-    
-#     return merged_template
 
-def read_template():
-    return 1
+print('''Welcome to Madlibs! ''')
 
-def parse_template():
-    return 2
+input_str = input("Do you want to play Madlibs? (y/n): ")
 
-def merge():
-    return 3
+if input_str == 'y':
+    adj1 = input("write an adjective: ")
+    adj2 = input("write another adjective: ")
+    name = input("write your name: ")
+    file_path =("assets/dark_and_stormy_night_template.txt")
+    def read_template(file_path):
+        with open (file_path , 'r') as file:
+            content = file.read()
+            return content
+
+    def parse_template(template_txt):
+        parts = []
+        stripped = ""
+        index = 0
+
+        while index < len(template_txt):
+            if template_txt[index] == "{":
+                end_index = template_txt.find("}", index)
+                parts.append(template_txt[index + 1 : end_index])
+                stripped += "{}"
+                index = end_index + 1
+            else:
+                stripped += template_txt[index]
+                index += 1
+
+        return stripped, tuple(parts)
+
+    def merge(template, words):
+        return template.format(*words)
+
+    template_txt = read_template(file_path)
+    stripped, parts = parse_template(template_txt)
+    words = (adj1, adj2, name)
+
+    story = merge(stripped, words)
+
+    print(story)
+    print('Game is finish!')
+
+elif input_str == 'n':
+    print("see you again!")
+else:
+    print(" please y/n")
+
+    
