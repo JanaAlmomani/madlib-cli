@@ -1,5 +1,5 @@
 import pytest
-from madlib_cli.madlib import read_template,parse_template,merge
+from madlib_cli.madlib import *
 
 
 def test_read_template_returns_stripped_string():
@@ -27,7 +27,7 @@ def test_merge():
     assert actual == expected
 
 
-# @pytest.mark.skip("pending")
+@pytest.mark.skip("pending")
 def test_read_template_raises_exception_with_bad_path():
 
     with pytest.raises(FileNotFoundError):
