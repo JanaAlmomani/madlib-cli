@@ -1,44 +1,47 @@
-# def read_template(file_path):
-#     try:
-#         with open(file_path, 'r') as file:
-#             return file.read().strip()
-#     except FileNotFoundError:
-#         print(f"Error: file not found at {file_path}")
-#         raise
-    
-# def parse_template(template):
-#     language_parts = []
-#     stripped_template = ""
-#     in_language_part = False
-    
-#     for char in template:
-#         if char == "{":
-#             in_language_part = True
-#             language_parts.append("")
-#         elif char == "}":
-#             in_language_part = False
-#         else:
-#             if in_language_part:
-#                 language_parts[-1] += char
-#             else:
-#                 stripped_template += char
-    
-#     return stripped_template, language_parts
-# def merge(template, language_parts):
-#     if len(language_parts) == 0:
-#         return template
-    
-#     merged_template = template.replace("{}", str(language_parts[0]), 1)
-#     for language_part in language_parts[1:]:
-#         merged_template = merged_template.replace("{}", str(language_part), 1)
-    
-#     return merged_template
+import re
 
-def read_template():
-    return 1
+def read_template(file_path):
+     with open (file_path , 'r') as file:
+        content = file.read()
+        return content
+     
+def parse_template(template_txt):
+    stripped = re.sub("[^{]+(?=})","",template_txt)
+    words = tuple(re.findall("[^{]+(?=})",template_txt ))
+    return stripped , words 
+print("Welcome to the Madlib game")
+print("Now you will start the game you should answer the questions")
+def user_input(words):
+    
 
-def parse_template():
-    return 2
+    input_value=[]
+    for i in list(words):
+        input_value.append(input(f" Write  {i} : "))
+    return tuple(input_value)
 
-def merge():
-    return 3
+def merge(template, words):
+    return template.format(*words)
+
+# def madlib_cli(path):
+#     content=read_template(path)
+#     stripped ,words = parse_template(content)
+#     input_value = user_input(words)
+#     res=merge(stripped,input_value)
+#     print(res)
+
+
+ 
+# write_to_file
+def madlib_cli(path):
+    content=read_template(path)
+    stripped ,words = parse_template(content)
+    input_value = user_input(words)
+    res=merge(stripped,input_value)
+    print(res)
+    
+    with open("assets/output.txt", "w") as file:
+        file.write(res)
+
+madlib_cli("assets/full-text.txt")
+# print("Now with the short cut")
+# madlib_cli("assets/dark_and_stormy_night_template.txt", "assets/dark_and_stormy_night_result.txt")
